@@ -74,6 +74,10 @@ ABBRIVIATION_WORD_DICT = dict([(word, 1) for word in ABBRIVIATION_WORD_LIST])\n
 LOWERCASE_WORD_LIST = (\'g\', \'cm\', \'kg\', \'%\', \'/\', \'...\', \'m\', \'-\', \'g/m2\', \'iCalendar\', \'m&#179\')\n
 LOWERCASE_WORD_DICT = dict([(word, 1) for word in LOWERCASE_WORD_LIST])\n
 \n
+# List of words that should not be modified\n
+SPECIALCASE_WORD_LIST = (\'OpenOffice.org\', \'LibreOffice\', \'ChangeLog\')\n
+SPECIALCASE_WORD_DICT = dict([(word, 1) for word in SPECIALCASE_WORD_LIST])\n
+\n
 # List of allowed characters, usefull to detect non-english strings\n
 ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789%/. ()-_?&\'#"\n
 \n
@@ -152,7 +156,7 @@ def checkTitle(path, id, title, field=None):\n
       if not word.split("-")[0].isupper():\n
         error_message += \'%s : %s : %r is not upper case even though it is an abbriviation\\n\' % (path, id, word)\n
     else:\n
-      if (word.capitalize()!= word and titlecase(word)!= word) and word not in LOWERCASE_WORD_DICT:\n
+      if (word.capitalize()!= word and titlecase(word)!= word) and word not in LOWERCASE_WORD_DICT and word not in SPECIALCASE_WORD_DICT :\n
         error_message += \'%s : %s : %r is not titlecased\\n\' % (path, id, word)\n
   if len(word_list) > 1 and word_list[-1].upper() == \'LIST\' and word_list[-2].upper() != \'PACKING\':\n
     error_message += \'%s : %s : %r is a jargon\\n\' % (path, id, title)\n
