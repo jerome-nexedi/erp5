@@ -75,7 +75,7 @@ LOWERCASE_WORD_LIST = (\'g\', \'cm\', \'kg\', \'%\', \'/\', \'...\', \'m\', \'-\
 LOWERCASE_WORD_DICT = dict([(word, 1) for word in LOWERCASE_WORD_LIST])\n
 \n
 # List of words that should not be modified\n
-SPECIALCASE_WORD_LIST = (\'OpenOffice.org\', \'LibreOffice\', \'ChangeLog\')\n
+SPECIALCASE_WORD_LIST = (\'OpenOffice\', \'LibreOffice\', \'ChangeLog\')\n
 SPECIALCASE_WORD_DICT = dict([(word, 1) for word in SPECIALCASE_WORD_LIST])\n
 \n
 # List of allowed characters, usefull to detect non-english strings\n
