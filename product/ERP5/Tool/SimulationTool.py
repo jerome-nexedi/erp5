@@ -36,7 +36,7 @@ from Products.ERP5Type.Tool.BaseTool import BaseTool
 
 from Products.ERP5 import _dtmldir
 
-from zLOG import LOG, PROBLEM
+from zLOG import LOG, PROBLEM, WARNING
 
 from Products.ERP5.Capacity.GLPK import solve
 from numpy import zeros, resize
@@ -56,8 +56,12 @@ from hashlib import md5
 from warnings import warn
 from cPickle import loads, dumps
 from copy import deepcopy
+from sys import exc_info
 
 MYSQL_MIN_DATETIME_RESOLUTION = 1/86400.
+
+class StockOptimisationError(Exception):
+    pass
 
 class SimulationTool(BaseTool):
     """
@@ -1296,26 +1300,37 @@ class SimulationTool(BaseTool):
         else:
           # add one second so that we can use to_date
           to_date = at_date + MYSQL_MIN_DATETIME_RESOLUTION
-        cached_result, cached_date = self._getCachedInventoryList(
-          to_date=to_date,
-          sql_kw=kw,
-          **base_inventory_kw)
-        if src__:
-          sql_source_list.extend(cached_result)
-        # Now must generate query for date diff
-        kw['to_date'] = to_date
-        kw['from_date'] = cached_date
+        try:
+          cached_result, cached_date = self._getCachedInventoryList(
+              to_date=to_date,
+              sql_kw=kw,
+              **base_inventory_kw)
+        except StockOptimisationError:
+          cached_result = []
+          kw['to_date'] = to_date
+        else:
+          if src__:
+            sql_source_list.extend(cached_result)
+          # Now must generate query for date diff
+          kw['to_date'] = to_date
+          kw['from_date'] = cached_date
       else:
         cached_result = []
       sql_kw, new_kw = self._generateKeywordDict(**kw)
       # Copy kw content as _generateSQLKeywordDictFromKeywordDict
       # remove some values from it
-      new_kw_copy = deepcopy(new_kw)
+      try:
+        new_kw_copy = deepcopy(new_kw)
+      except TypeError:
+        # new_kw contains wrong parameters
+        # as optimisation has already been disable we
+        # do not care about the deepcopy
+        new_kw_copy = new_kw
       stock_sql_kw = self._generateSQLKeywordDictFromKeywordDict(
-        table=default_stock_table, sql_kw=sql_kw, new_kw=new_kw_copy)
+          table=default_stock_table, sql_kw=sql_kw, new_kw=new_kw_copy)
       stock_sql_kw.update(base_inventory_kw)
       delta_result = self.Resource_zGetInventoryList(
-        **stock_sql_kw)
+          **stock_sql_kw)
       if src__:
         sql_source_list.append(delta_result)
         result = ';\n-- NEXT QUERY\n'.join(sql_source_list)
@@ -1351,7 +1366,13 @@ class SimulationTool(BaseTool):
       Resource_zGetInventoryList = self.Resource_zGetInventoryList
       # Generate the SQL source without date parameter
       # This will be the cache key
-      no_date_kw = deepcopy(sql_kw)
+      try:
+          no_date_kw = deepcopy(sql_kw)
+      except TypeError:
+          LOG("SimulationTool._getCachedInventoryList", WARNING,
+              "Failed copying sql_kw, disabling stock cache",
+              error=exc_info())
+          raise StockOptimisationError
       no_date_sql_kw, no_date_new_kw = self._generateKeywordDict(**no_date_kw)
       no_date_stock_sql_kw = self._generateSQLKeywordDictFromKeywordDict(
         table=stock_table_id, sql_kw=no_date_sql_kw,
