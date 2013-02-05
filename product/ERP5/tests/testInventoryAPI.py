@@ -2189,7 +2189,7 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     min_lag = cache_lag / 2
     self.NOW = now = DateTime(DateTime().strftime("%Y-%m-%d %H:%M:%S UTC"))
     self.CACHE_DATE = cache_date = now - min_lag
-    self.LAST_CACHED_MOVEMENT_DATE = last_cached_mouvement_date = \
+    self.LAST_CACHED_MOVEMENT_DATE = last_cached_movement_date = \
       cache_date - MYSQL_MIN_DATETIME_RESOLUTION
     # First movement, won't be into cache
     self.INVENTORY_DATE_3 = INVENTORY_DATE_3 = now - 10
@@ -2198,7 +2198,7 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.INVENTORY_DATE_2 = INVENTORY_DATE_2 = cache_date
     self.INVENTORY_QUANTITY_2 = INVENTORY_QUANTITY_2 = 10000
     # Next will be stored as cache result after first getInventory
-    self.INVENTORY_DATE_1 = INVENTORY_DATE_1 = last_cached_mouvement_date
+    self.INVENTORY_DATE_1 = INVENTORY_DATE_1 = last_cached_movement_date
     self.INVENTORY_QUANTITY_1 = INVENTORY_QUANTITY_1 = 1000
     # Create movements
     self._makeMovement(
@@ -2285,6 +2285,9 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.assertFalse(inventory_list)
 
   def _fillCache(self, inventory_list=False):
+    """
+      Calling getInventoryXXX will fill the cache for us
+    """
     if inventory_list:
       result_list = self.getInventoryList(node_uid=self.node_uid, to_date=self.NOW)
       result = 0
@@ -2321,90 +2324,6 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.assertNotEquals(value,
                          self.getInventory(optimisation__=False,
                                            **inventory_kw))
-
-  def setUpDefaultInventoryCalculationList(self):
-    createZODBPythonScript(self.portal.portal_skins.custom,
-                           'Inventory_getDefaultInventoryCalculationList', '',
-'''return ({
-'inventory_params':{
- 'section_uid':context.getDestinationSectionUid(),
- 'node_uid':context.getDestinationUid(),
- 'group_by_variation':1,
- 'group_by_resource':1},
-'list_method':'getMovementList',
-'first_level':({'key':'resource_relative_url',
-                'getter':'getResource',
-                'setter':('appendToCategoryList', 'resource')},
-               {'key':'variation_text',
-                'getter':'getVariationText',
-                'setter':'splitAndExtendToCategoryList'},
-               ),
-},)
-''')
-    self.commit()
-
-  def clearAllInventoryAndSetUpTwoInventory(self):
-    self.portal.inventory_module.manage_delObjects(list(self.portal.inventory_module.objectIds()))
-    self.folder.manage_delObjects(list(self.folder.objectIds()))
-    self.resource.setProductLine('level1/level2')
-    self.other_resource.setProductLine('anotherlevel')
-    self.section.setGroup('level1/level2')
-    self.other_section.setGroup('anotherlevel')
-    self.node.setRegion('level1')
-    self.other_node.setGroup('anotherlevel')
-    full_inventory = self.portal.inventory_module.newContent(portal_type='Inventory')
-    full_inventory.edit(destination_section_value=self.section,
-                        destination_value=self.node,
-                        full_inventory=1,
-                        start_date=DateTime('2012/05/18 00:00:00 GMT+9'))
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.resource)
-    line.setQuantity(1)
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.other_resource)
-    line.setQuantity(10)
-    full_inventory.deliver()
-
-    full_inventory = self.portal.inventory_module.newContent(portal_type='Inventory')
-    full_inventory.edit(destination_section_value=self.other_section,
-                        destination_value=self.node,
-                        full_inventory=1,
-                        start_date=DateTime('2012/05/18 00:00:00 GMT+9'))
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.resource)
-    line.setQuantity(100)
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.other_resource)
-    line.setQuantity(1000)
-    full_inventory.deliver()
-
-    full_inventory = self.portal.inventory_module.newContent(portal_type='Inventory')
-    full_inventory.edit(destination_section_value=self.section,
-                        destination_value=self.other_node,
-                        full_inventory=1,
-                        start_date=DateTime('2012/05/18 00:00:00 GMT+9'))
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.resource)
-    line.setQuantity(10000)
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.other_resource)
-    line.setQuantity(100000)
-    full_inventory.deliver()
-    full_inventory = self.portal.inventory_module.newContent(portal_type='Inventory')
-    full_inventory.edit(destination_section_value=self.other_section,
-                        destination_value=self.other_node,
-                        full_inventory=1,
-                        start_date=DateTime('2012/05/18 00:00:00 GMT+9'))
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.resource)
-    line.setQuantity(1000000)
-    line = full_inventory.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.other_resource)
-    line.setQuantity(10000000)
-    full_inventory.deliver()
-
-    self.commit()
-    self.tic()
 
   def test_01_CurrentInventory(self):
     """
@@ -2701,7 +2620,7 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.assertInventoryEquals(value, inventory_kw)
 
     # Now compute wanted value manually as we screwed the stock table
-    # As we double every movement < CACHE_LAG/2, inventory_1 is double
+    # As we double every movement < CACHE_LAG/2, inventory_1 is doubled
     # like inventory_4, but inventory_4 must be retrieved from cache with
     # its initial value
     wanted_value = 2 * self.INVENTORY_QUANTITY_1 + self.INVENTORY_QUANTITY_2 + \
@@ -2713,166 +2632,6 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     # Make sure it has filled a new cache
     self.assertInventoryEquals(wanted_value, inventory_kw)
 
-
-  def test_MultipleSectionAndFullInventory(self):
-    """Make sure that getInventoryList works in the situation which
-    two sections use the same node and one section has full inventory for
-    the node.
-    """
-    # In this test we do not need doucments made by afterSetUp.
-    self.portal.inventory_module.manage_delObjects(list(self.portal.inventory_module.objectIds()))
-    self.folder.manage_delObjects(list(self.folder.objectIds()))
-
-    self.commit()
-    self.tic()
-
-    createZODBPythonScript(self.portal.portal_skins.custom,
-                           'Inventory_getDefaultInventoryCalculationList', '',
-'''return ({
-'inventory_params':{
- 'section_uid':context.getDestinationSectionUid(),
- 'node_uid':context.getDestinationUid(),
- 'group_by_variation':1,
- 'group_by_resource':1},
-'list_method':'getMovementList',
-'first_level':({'key':'resource_relative_url',
-                'getter':'getResource',
-                'setter':('appendToCategoryList', 'resource')},
-               {'key':'variation_text',
-                'getter':'getVariationText',
-                'setter':'splitAndExtendToCategoryList'},
-               ),
-},)
-''')
-
-    self.commit()
-
-    getCurrentInventoryList = self.getSimulationTool().getCurrentInventoryList
-
-    # Add movements for section
-    self._makeMovement(source_section_value=None,
-                       source_value=None,
-                       destination_section_value=self.section,
-                       destination_value=self.node,
-                       start_date=DateTime('2012/07/18 00:00:00 GMT+9'),
-                       simulation_state='delivered',
-                       resource_value=self.resource,
-                       quantity=1)
-    self._makeMovement(source_section_value=None,
-                       source_value=None,
-                       destination_section_value=self.section,
-                       destination_value=self.node,
-                       start_date=DateTime('2012/07/21 00:00:00 GMT+9'),
-                       simulation_state='delivered',
-                       resource_value=self.resource,
-                       quantity=2)
-
-    # Add movemnets for other section
-    self._makeMovement(source_section_value=None,
-                       source_value=None,
-                       destination_section_value=self.other_section,
-                       destination_value=self.node,
-                       start_date=DateTime('2012/07/19 00:00:00 GMT+9'),
-                       simulation_state='delivered',
-                       resource_value=self.resource,
-                       quantity=3)
-    self._makeMovement(source_section_value=None,
-                       source_value=None,
-                       destination_section_value=self.other_section,
-                       destination_value=self.node,
-                       start_date=DateTime('2012/07/20 00:00:00 GMT+9'),
-                       simulation_state='delivered',
-                       resource_value=self.resource,
-                       quantity=4)
-
-    self.commit()
-    self.tic()
-
-    # Check inventory
-    result = {}
-    for brain in getCurrentInventoryList(node_uid=self.node.getUid(),
-                                         group_by_resource=1,
-                                         group_by_node=1,
-                                         group_by_section=1):
-      key = (brain.section_uid, brain.node_uid, brain.resource_uid)
-      if not key in result:
-        result[key] = 0
-      result[key] = result[key] + brain.inventory
-
-    self.assertEqual(result,
-                     {(self.section.getUid(), self.node.getUid(), self.resource.getUid()):3,
-                      (self.other_section.getUid(), self.node.getUid(), self.resource.getUid()):7})
-
-    # Add full inventory for section, not for other section
-    full_inventory1 = self.portal.inventory_module.newContent(portal_type='Inventory')
-    full_inventory1.edit(destination_section_value=self.section,
-                         destination_value=self.node,
-                         full_inventory=1,
-                         start_date=DateTime('2012/07/20 00:00:00 GMT+9'))
-    line = full_inventory1.newContent(portal_type='Inventory Line')
-    line.setResourceValue(self.resource)
-    line.setQuantity(100)
-    full_inventory1.deliver()
-
-    self.commit()
-    self.tic()
-
-    # Check inventory again. This time, full inventory should change
-    # section's inventory. It should not change other section's inventory.
-    result = {}
-    for brain in getCurrentInventoryList(node_uid=self.node.getUid(),
-                                         group_by_resource=1,
-                                         group_by_node=1,
-                                         group_by_section=1):
-      key = (brain.section_uid, brain.node_uid, brain.resource_uid)
-      if not key in result:
-        result[key] = 0
-      result[key] = result[key] + brain.inventory
-
-    self.assertEqual(result,
-                     {(self.section.getUid(), self.node.getUid(), self.resource.getUid()):102,
-                      (self.other_section.getUid(), self.node.getUid(), self.resource.getUid()):7})
-
-  def test_ResourceCategory(self):
-    """Make sure that resource category works when full inventory exists."""
-    # In this test we do not need doucments made by afterSetUp.
-    self.setUpDefaultInventoryCalculationList()
-    self.clearAllInventoryAndSetUpTwoInventory()
-    self.assertEquals(1,
-                      self.getInventory(section_uid=self.section.getUid(),
-                                        node_uid=self.node.getUid(),
-                                        resource_category='product_line/level1',
-                                        optimisation__=False))
-    self.assertEquals(1,
-                      self.getInventory(section_uid=self.section.getUid(),
-                                        node_uid=self.node.getUid(),
-                                        resource_category='product_line/level1',
-                                        optimisation__=True))
-
-  def test_SectionCategory(self):
-    """Make sure that section category works when full inventory exists."""
-    # In this test we do not need doucments made by afterSetUp.
-    self.clearAllInventoryAndSetUpTwoInventory()
-    self.assertEquals(11,
-                      self.getInventory(node_uid=self.node.getUid(),
-                                        section_category='group/level1/level2',
-                                        optimisation__=False))
-    self.assertEquals(11,
-                      self.getInventory(node_uid=self.node.getUid(),
-                                        section_category='group/level1/level2',
-                                        optimisation__=True))
-
-  def test_NodeCategory(self):
-    # In this test we do not need doucments made by afterSetUp.
-    self.clearAllInventoryAndSetUpTwoInventory()
-    self.assertEquals(11,
-                      self.getInventory(section_uid=self.section.getUid(),
-                                        node_category='region/level1',
-                                        optimisation__=False))
-    self.assertEquals(11,
-                      self.getInventory(section_uid=self.section.getUid(),
-                                        node_category='region/level1',
-                                        optimisation__=True))
 
 class BaseTestUnitConversion(InventoryAPITestCase):
   QUANTITY_UNIT_DICT = {}
