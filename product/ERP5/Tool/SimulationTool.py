@@ -51,6 +51,7 @@ from Products.ZSQLCatalog.SQLCatalog import Query, ComplexQuery
 from Shared.DC.ZRDB.Results import Results
 from Products.ERP5Type.Utils import mergeZRDBResults
 from App.Extensions import getBrain
+from MySQLdb import ProgrammingError
 
 from hashlib import md5
 from warnings import warn
@@ -1284,9 +1285,10 @@ class SimulationTool(BaseTool):
         'quantity_unit_uid': quantity_unit_uid,
       }
       # Get cached data
-      if optimisation__ and 'from_date' not in kw and \
-          (('at_date' in kw) ^ ('to_date' in kw)) and \
-          'transformed_resource' not in kw:
+      if getattr(self, "Resource_zGetInventoryCacheResut", None) is None and \
+              optimisation__ and 'from_date' not in kw and \
+              (('at_date' in kw) ^ ('to_date' in kw)) and \
+              'transformed_resource' not in kw:
         # Here is the different kind of date
         # from_date : >=
         # to_date   : <
@@ -1353,10 +1355,7 @@ class SimulationTool(BaseTool):
       - Large enough that few enough documents get modified past that date,
         otherwise cache entries would be removed from cache all the time.
       """
-      # TODO: move this setting to a configurable place (system preference ?).
-      # Preserve this method anyway, it is the API to access it wherever it's
-      # stored.
-      return 60
+      return self.SimulationTool_getInventoryCacheLag()
 
     def _getCachedInventoryList(self, to_date, sql_kw, stock_table_id, src__=False, **kw):
       """
@@ -1391,7 +1390,13 @@ class SimulationTool(BaseTool):
         'query': sql_text_hash,
         'date': to_date,
       }
-      cached_sql_result = Resource_zGetInventoryCacheResult(**inventory_cache_kw)
+      try:
+          cached_sql_result = Resource_zGetInventoryCacheResult(**inventory_cache_kw)
+      except ProgrammingError:
+          # First use of the optimisation, we need to create the table
+          self.SimulationTool_zCreateInventoryCache()
+          cached_sql_result = None
+
       if src__:
         sql_source_list.append(Resource_zGetInventoryCacheResult(src__=1, **inventory_cache_kw))
       if cached_sql_result:

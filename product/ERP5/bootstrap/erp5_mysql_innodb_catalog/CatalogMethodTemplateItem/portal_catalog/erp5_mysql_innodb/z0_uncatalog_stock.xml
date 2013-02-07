@@ -54,10 +54,6 @@
             <key> <string>src</string> </key>
             <value> <string encoding="cdata"><![CDATA[
 
-DELETE FROM inventory_cache WHERE date > (SELECT min(date) from stock where <dtml-sqltest uid op=eq type=int>)\n
-;\n
-<dtml-var "\'\\0\'">\n
-\n
 DELETE FROM stock WHERE <dtml-sqltest uid op=eq type=int>
 
 ]]></string> </value>

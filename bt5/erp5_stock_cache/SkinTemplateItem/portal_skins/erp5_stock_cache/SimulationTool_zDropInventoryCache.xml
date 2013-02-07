@@ -7,6 +7,12 @@
     <pickle>
       <dictionary>
         <item>
+            <key> <string>_col</string> </key>
+            <value>
+              <tuple/>
+            </value>
+        </item>
+        <item>
             <key> <string>arguments_src</string> </key>
             <value> <string></string> </value>
         </item>
@@ -16,17 +22,11 @@
         </item>
         <item>
             <key> <string>id</string> </key>
-            <value> <string>z_create_inventory_cache</string> </value>
+            <value> <string>SimulationTool_zDropInventoryCache</string> </value>
         </item>
         <item>
             <key> <string>src</string> </key>
-            <value> <string>Create table `inventory_cache` (\n
-      `query` BINARY(16) NOT NULL,\n
-      `date` datetime NOT NULL,\n
-      `result` LONGBLOB NOT NULL,\n
-   PRIMARY KEY (`query`, `date`),\n
-   KEY (`date`)\n
-) Engine=InnoDB</string> </value>
+            <value> <string>DROP TABLE IF EXISTS inventory_cache</string> </value>
         </item>
         <item>
             <key> <string>title</string> </key>
