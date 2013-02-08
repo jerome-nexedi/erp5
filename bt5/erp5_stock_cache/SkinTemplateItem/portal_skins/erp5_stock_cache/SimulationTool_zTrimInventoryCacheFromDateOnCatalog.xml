@@ -25,7 +25,7 @@
 DELETE FROM \n
   inventory_cache \n
 WHERE \n
-  date >= <dtml-sqlvar expr="date" type="datetime">
+  date > <dtml-sqlvar expr="date" type="datetime">
 
 ]]></string> </value>
         </item>
