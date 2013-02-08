@@ -2641,7 +2641,8 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.portal.SimulationTool_zDropInventoryCache()
     # Make sure it is dropped
     self.assertRaises(ProgrammingError,
-        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime()))
+             self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog,
+             date=DateTime())
     # This call should not fail
     # It will create table, fill it and check optimisation is used
     self.assertInventoryEquals(
@@ -2660,7 +2661,8 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.portal.SimulationTool_zDropInventoryCache()
     # Make sure it is dropped
     self.assertRaises(ProgrammingError,
-        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime()))
+            self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog,
+            date=DateTime())
     # Create a new movement, indexation should not fail
     INVENTORY_QUANTITY_4 = 5000
     INVENTORY_DATE_4 = self.CACHE_DATE
@@ -2684,7 +2686,6 @@ class TestInventoryCacheTable(InventoryAPITestCase):
 
 
     # Check it also works on unindexation
-
     self.portal.SimulationTool_zDropInventoryCache()
     # Make sure it is dropped
     self.assertRaises(ProgrammingError,
