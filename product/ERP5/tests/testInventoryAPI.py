@@ -38,6 +38,7 @@ import unittest
 
 from AccessControl.SecurityManagement import newSecurityManager
 from DateTime import DateTime
+from MySQLdb import ProgrammingError
 
 from Products.ERP5Type.tests.ERP5TypeTestCase import ERP5TypeTestCase
 from Products.ERP5Type.tests.utils import reindex
@@ -2630,6 +2631,78 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.assertEqual(value, wanted_value)
     # Make sure it has filled a new cache
     self.assertInventoryEquals(wanted_value, inventory_kw)
+
+
+  def test_14_CacheTableCreatedOnGetInventoryCall(self):
+    """
+    Check that getInventory does not fail it cache table does not exist
+    and that it create the table and add an entry in it
+    """
+    self.portal.SimulationTool_zDropInventoryCache()
+    # Make sure it is dropped
+    self.assertRaises(ProgrammingError,
+        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime()))
+    # This call should not fail
+    # It will create table, fill it and check optimisation is used
+    self.assertInventoryEquals(
+      self._fillCache(),
+      inventory_kw={
+        'node_uid': self.node_uid,
+        'to_date': self.NOW,
+      }
+    )
+
+  def test_15_CacheTableCreatedOnIndexation(self):
+    """
+    Check that getInventory does not fail it cache table does not exist
+    and that it create the table and add an entry in it
+    """
+    self.portal.SimulationTool_zDropInventoryCache()
+    # Make sure it is dropped
+    self.assertRaises(ProgrammingError,
+        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime()))
+    # Create a new movement, indexation should not fail
+    INVENTORY_QUANTITY_4 = 5000
+    INVENTORY_DATE_4 = self.CACHE_DATE
+    movement = self._makeMovement(
+      quantity=INVENTORY_QUANTITY_4,
+      start_date=INVENTORY_DATE_4,
+      simulation_state='delivered',
+    )
+    self.tic()
+
+    # Optimisation must then be used
+    inventory_kw={
+      'node_uid': self.node_uid,
+      'to_date': self.NOW,
+      }
+    value = self.getInventory(**inventory_kw)
+    self.assertInventoryEquals(
+      value,
+      inventory_kw=inventory_kw,
+      )
+
+
+    # Check it also works on unindexation
+
+    self.portal.SimulationTool_zDropInventoryCache()
+    # Make sure it is dropped
+    self.assertRaises(ProgrammingError,
+        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime()))
+    # Delete movement
+    movement_parent = movement.getParentValue()
+    movement_parent.manage_delObjects(ids=(movement.getId(),))
+    self.tic()
+
+    # This call should not fail
+    # It will create table, fill it and check optimisation is used
+    self.assertInventoryEquals(
+      self._fillCache(),
+      inventory_kw={
+        'node_uid': self.node_uid,
+        'to_date': self.NOW,
+      }
+    )
 
 
 class BaseTestUnitConversion(InventoryAPITestCase):
