@@ -1285,7 +1285,7 @@ class SimulationTool(BaseTool):
         'quantity_unit_uid': quantity_unit_uid,
       }
       # Get cached data
-      if getattr(self, "Resource_zGetInventoryCacheResut", None) is None and \
+      if getattr(self, "Resource_zGetInventoryCacheResut", None) is not None and \
               optimisation__ and 'from_date' not in kw and \
               (('at_date' in kw) ^ ('to_date' in kw)) and \
               'transformed_resource' not in kw:
