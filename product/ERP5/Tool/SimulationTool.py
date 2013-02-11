@@ -36,7 +36,7 @@ from Products.ERP5Type.Tool.BaseTool import BaseTool
 
 from Products.ERP5 import _dtmldir
 
-from zLOG import LOG, PROBLEM, WARNING
+from zLOG import LOG, PROBLEM, WARNING, INFO
 
 from Products.ERP5.Capacity.GLPK import solve
 from numpy import zeros, resize
@@ -1394,7 +1394,12 @@ class SimulationTool(BaseTool):
           cached_sql_result = Resource_zGetInventoryCacheResult(**inventory_cache_kw)
       except ProgrammingError:
           # First use of the optimisation, we need to create the table
-          self.SimulationTool_zCreateInventoryCache()
+          LOG("SimulationTool._getCachedInventoryList", INFO,
+              "Creating inventory cache stock")
+          if src__:
+              sql_source_list.append(self.SimulationTool_zCreateInventoryCache(src__=1))
+          else:
+              self.SimulationTool_zCreateInventoryCache()
           cached_sql_result = None
 
       if src__:
