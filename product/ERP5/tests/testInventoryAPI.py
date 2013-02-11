@@ -2643,13 +2643,21 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.assertRaises(ProgrammingError,
              self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog,
              date=DateTime())
+    # Check that src__ call still works
+    inventory_kw={
+      'node_uid': self.node_uid,
+      'to_date': self.NOW,
+      }
+    self.getInventory(src__=1, **inventory_kw)
+    # Table is still not created
+    self.assertRaises(ProgrammingError,
+             self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog,
+             date=DateTime())
     # This call should not fail
     # It will create table, fill it and check optimisation is used
     self.assertInventoryEquals(
       self._fillCache(),
-      inventory_kw={
-        'node_uid': self.node_uid,
-        'to_date': self.NOW,
+      inventory_kw=inventory_kw,
       }
     )
 
