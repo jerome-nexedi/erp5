@@ -2691,12 +2691,12 @@ class TestInventoryCacheTable(InventoryAPITestCase):
       inventory_kw=inventory_kw,
       )
 
-
     # Check it also works on unindexation
     self.portal.SimulationTool_zDropInventoryCache()
     # Make sure it is dropped
     self.assertRaises(ProgrammingError,
-        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime()))
+        self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog,
+                      date=DateTime())
     # Delete movement
     movement_parent = movement.getParentValue()
     movement_parent.manage_delObjects(ids=(movement.getId(),))
