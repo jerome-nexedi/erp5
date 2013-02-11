@@ -2691,6 +2691,20 @@ class TestInventoryCacheTable(InventoryAPITestCase):
       inventory_kw=inventory_kw,
       )
 
+  def test_16_CacheTableCreatedOnUnindexation(self):
+    """
+    Check that getInventory does not fail it cache table does not exist
+    and that it create the table and add an entry in it
+    """
+    # Create a new movement
+    INVENTORY_QUANTITY_4 = 5000
+    INVENTORY_DATE_4 = self.CACHE_DATE
+    movement = self._makeMovement(
+      quantity=INVENTORY_QUANTITY_4,
+      start_date=INVENTORY_DATE_4,
+      simulation_state='delivered',
+    )
+    self.tic()
     # Check it also works on unindexation
     self.portal.SimulationTool_zDropInventoryCache()
     # Make sure it is dropped
@@ -2698,9 +2712,10 @@ class TestInventoryCacheTable(InventoryAPITestCase):
         self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog,
                       date=DateTime())
     # Delete movement
-    movement_parent = movement.getParentValue()
-    movement_parent.manage_delObjects(ids=(movement.getId(),))
+    self.folder.manage_delObjects(ids=[movement.getId(), ])
     self.tic()
+    # This call must not fail as table has been created
+    self.portal.SimulationTool_zTrimInventoryCacheFromDateOnCatalog(date=DateTime())
 
     # This call should not fail
     # It will create table, fill it and check optimisation is used
