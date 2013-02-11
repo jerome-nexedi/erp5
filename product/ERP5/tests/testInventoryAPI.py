@@ -2658,7 +2658,6 @@ class TestInventoryCacheTable(InventoryAPITestCase):
     self.assertInventoryEquals(
       self._fillCache(),
       inventory_kw=inventory_kw,
-      }
     )
 
   def test_15_CacheTableCreatedOnIndexation(self):
