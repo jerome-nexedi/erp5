@@ -76,17 +76,17 @@ installed_business_template_title_list = context.getInstalledBusinessTemplateTit
 for uid in uids:\n
   current_uid_list.append(uid)\n
   repository, bt5_id = context.decodeRepositoryBusinessTemplateUid(uid)\n
-  title_list.append(bt5_id.rstrip(".bt5"))\n
+  title_list.append(bt5_id.replace(".bt5", ""))\n
 \n
 available_bt5_list = context.getRepositoryBusinessTemplateList()\n
 \n
 # Check for missing dependencies\n
 for uid in uids:\n
   repository, bt5_id = context.decodeRepositoryBusinessTemplateUid(uid)\n
-  bt5_title = bt5_id.rstrip(".bt5")\n
+  bt5_title = bt5_id.replace(".bt5", "")\n
   dependency_list = context.getDependencyList((repository, bt5_id))\n
   for dep_repository, dep_id in dependency_list:\n
-    dep_title = dep_id.rstrip(".bt5")\n
+    dep_title = dep_id.replace(".bt5", "")\n
     if dep_title != bt5_title and \\\n
         dep_title in installed_business_template_title_list:\n
       continue\n
