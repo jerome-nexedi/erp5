@@ -108,7 +108,7 @@ CLOSED_CLASS_WORD_LIST = (\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', \'w
                 \'and/or\', \'in that\', \'albeit\', \'except that\', \'so long as\', \'given that\', \'provided that\', \'yeah\', \'oh\', \n
                 \'no\', \'yes\', \'mm\', \'ah\', \'mhm\', \'aye\', \'ooh\', \'hello\', \'dear\', \'eh\', \'ha\', \'aha\', \'hey\', \'bye\', \'yep\', \n
                 \'goodbye\', \'should\', \'be\', \'has\', "hasn\'t", \'do\', "don\'t", "doesn\'t", "haven\'t", "shouldn\'t", "want",\n
-                \'instead\', \'not\', \'use\'\n
+                \'instead\', \'not\', \'use\', \'is\', \'been\', \'on\', \'already\', \'there\', \'could\', \'are\', \'have\'\n
               )\n
 \n
 CLOSED_CLASS_WORD_DICT = dict([(word, 1) for word in CLOSED_CLASS_WORD_LIST])\n
