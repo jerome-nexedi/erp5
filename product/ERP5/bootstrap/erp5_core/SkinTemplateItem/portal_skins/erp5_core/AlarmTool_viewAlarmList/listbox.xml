@@ -91,7 +91,7 @@
                         </tuple>
                         <tuple>
                           <string>periodicity_hour_list</string>
-                          <string>Hours In Day</string>
+                          <string>Hours in Day</string>
                         </tuple>
                         <tuple>
                           <string>periodicity_hour_frequency</string>
@@ -99,7 +99,7 @@
                         </tuple>
                         <tuple>
                           <string>periodicity_minute_list</string>
-                          <string>Minutes In Hour</string>
+                          <string>Minutes in Hour</string>
                         </tuple>
                         <tuple>
                           <string>periodicity_minute_frequency</string>
@@ -107,11 +107,11 @@
                         </tuple>
                         <tuple>
                           <string>periodicity_month_list</string>
-                          <string>Months In Year</string>
+                          <string>Months in Year</string>
                         </tuple>
                         <tuple>
                           <string>periodicity_month_day_list</string>
-                          <string>Days In Month</string>
+                          <string>Days in Month</string>
                         </tuple>
                         <tuple>
                           <string>periodicity_month_frequency</string>
@@ -119,11 +119,11 @@
                         </tuple>
                         <tuple>
                           <string>periodicity_week_list</string>
-                          <string>Weeks In Year</string>
+                          <string>Weeks in Year</string>
                         </tuple>
                         <tuple>
                           <string>periodicity_week_day</string>
-                          <string>Days In Week</string>
+                          <string>Days in Week</string>
                         </tuple>
                         <tuple>
                           <string>periodicity_week_frequency</string>

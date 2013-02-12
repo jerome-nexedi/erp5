@@ -234,7 +234,7 @@
       <dictionary>
         <item>
             <key> <string>_text</string> </key>
-            <value> <string>python: field.getTemplateField().get_value(\'columns\') + [(\'related_object_list_quantity\', \'Number Of Related Objects\')]</string> </value>
+            <value> <string>python: field.getTemplateField().get_value(\'columns\') + [(\'related_object_list_quantity\', \'Number of Related Objects\')]</string> </value>
         </item>
       </dictionary>
     </pickle>
