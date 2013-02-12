@@ -84,7 +84,7 @@ class TestNamingConvention(ERP5TypeTestCase):
             word = word.strip('()')
             if word.isdigit():
               continue
-            if word != word_list[0] and word.lower() in fdata:
+            if word != word_list[0] and word.lower() in fdata and word.istitle():
               error_message += '%s: %s : %r is a closed class word \n' % (path, id,  word)
          return error_message
       
