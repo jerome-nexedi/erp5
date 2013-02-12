@@ -191,11 +191,12 @@ def checkTitle(path, id, title, field=None):\n
       if not word.split("-")[0].isupper():\n
         error_message += \'%s : %s : %r is not upper case even though it is an abbriviation\\n\' % (path, id, word)\n
     else:\n
-      if (word.capitalize()!= word and titlecase(word)!= word):\n
-        if word.lower() in CLOSED_CLASS_WORD_DICT and word == word_list[0] :\n
-           error_message += \'%s : %s : %r is not titlecased\\n\' % (path, id, word)\n
-        elif word not in LOWERCASE_WORD_DICT and word not in SPECIALCASE_WORD_DICT and word not in CLOSED_CLASS_WORD_DICT :\n
-           error_message += \'%s : %s : %r is not titlecased\\n\' % (path, id, word)\n
+      if word.lower() in CLOSED_CLASS_WORD_DICT and word != word_list[0] :\n
+        if (word.capitalize()== word or titlecase(word)== word):\n
+          error_message += \'%s : %s : %r is a closed-class word and should not be titlecased\\n\' % (path, id, word)\n
+      elif (word.capitalize()!= word and titlecase(word)!= word) and \\\n
+         word not in LOWERCASE_WORD_DICT and word not in SPECIALCASE_WORD_DICT and word not in CLOSED_CLASS_WORD_DICT :\n
+          error_message += \'%s : %s : %r is not titlecased\\n\' % (path, id, word)\n
   if len(word_list) > 1 and word_list[-1].upper() == \'LIST\' and word_list[-2].upper() != \'PACKING\':\n
     error_message += \'%s : %s : %r is a jargon\\n\' % (path, id, title)\n
   return error_message\n
