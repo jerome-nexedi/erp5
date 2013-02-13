@@ -10,8 +10,8 @@
             <key> <string>delegated_list</string> </key>
             <value>
               <list>
-                <string>title</string>
                 <string>default</string>
+                <string>title</string>
               </list>
             </value>
         </item>
@@ -79,6 +79,12 @@
             <value>
               <dictionary>
                 <item>
+                    <key> <string>default</string> </key>
+                    <value>
+                      <none/>
+                    </value>
+                </item>
+                <item>
                     <key> <string>field_id</string> </key>
                     <value> <string>your_date</string> </value>
                 </item>
@@ -92,7 +98,7 @@
                 </item>
                 <item>
                     <key> <string>title</string> </key>
-                    <value> <string>Created After</string> </value>
+                    <value> <string>Created after</string> </value>
                 </item>
               </dictionary>
             </value>
