@@ -237,7 +237,7 @@
                 </item>
                 <item>
                     <key> <string>title</string> </key>
-                    <value> <string>Orphan Objects (Objects Not Included In A Business Template)</string> </value>
+                    <value> <string>Orphan Objects (Objects not included in a Business Template)</string> </value>
                 </item>
                 <item>
                     <key> <string>truncate</string> </key>
