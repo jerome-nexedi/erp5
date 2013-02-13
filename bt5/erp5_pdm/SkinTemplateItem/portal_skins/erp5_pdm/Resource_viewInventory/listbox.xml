@@ -328,7 +328,7 @@
                       <list>
                         <tuple>
                           <string>node_title</string>
-                          <string>Site Or Warehouse</string>
+                          <string>Site or Warehouse</string>
                         </tuple>
                         <tuple>
                           <string>variation_category_item_list</string>
@@ -549,7 +549,7 @@
                 </item>
                 <item>
                     <key> <string>title</string> </key>
-                    <value> <string>Stock Per Variation</string> </value>
+                    <value> <string>Stock per Variation</string> </value>
                 </item>
                 <item>
                     <key> <string>untranslatable_columns</string> </key>

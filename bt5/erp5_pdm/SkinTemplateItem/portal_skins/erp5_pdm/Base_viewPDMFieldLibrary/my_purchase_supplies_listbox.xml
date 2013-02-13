@@ -120,7 +120,7 @@
                         </tuple>
                         <tuple>
                           <string>default_destination_title</string>
-                          <string>Recipient Or Beneficiary</string>
+                          <string>Recipient or Beneficiary</string>
                         </tuple>
                         <tuple>
                           <string>default_source_section_title</string>
@@ -128,15 +128,15 @@
                         </tuple>
                         <tuple>
                           <string>default_source_title</string>
-                          <string>Sender Or Provider</string>
+                          <string>Sender or Provider</string>
                         </tuple>
                         <tuple>
                           <string>start_date_range_min</string>
-                          <string>Valid From</string>
+                          <string>Valid from</string>
                         </tuple>
                         <tuple>
                           <string>start_date_range_max</string>
-                          <string>Valid Until</string>
+                          <string>Valid until</string>
                         </tuple>
                         <tuple>
                           <string>translated_validation_state_title</string>
