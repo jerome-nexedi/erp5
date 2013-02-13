@@ -132,11 +132,11 @@
                         </tuple>
                         <tuple>
                           <string>source_title</string>
-                          <string>Sender Or Provider</string>
+                          <string>Sender or Provider</string>
                         </tuple>
                         <tuple>
                           <string>destination_title</string>
-                          <string>Recipient Or Beneficiary</string>
+                          <string>Recipient or Beneficiary</string>
                         </tuple>
                         <tuple>
                           <string>source_section_title</string>
@@ -196,11 +196,11 @@
                         </tuple>
                         <tuple>
                           <string>resource_title</string>
-                          <string>Product Or Service</string>
+                          <string>Product or Service</string>
                         </tuple>
                         <tuple>
                           <string>resource_reference</string>
-                          <string>Product Or Service Reference</string>
+                          <string>Product or Service Reference</string>
                         </tuple>
                         <tuple>
                           <string>product_line</string>

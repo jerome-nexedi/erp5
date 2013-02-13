@@ -122,7 +122,7 @@
                         </tuple>
                         <tuple>
                           <string>source_title</string>
-                          <string>Sender Or Provider</string>
+                          <string>Sender or Provider</string>
                         </tuple>
                         <tuple>
                           <string>source_section_title</string>
@@ -130,7 +130,7 @@
                         </tuple>
                         <tuple>
                           <string>destination_title</string>
-                          <string>Recipient Or Beneficiary</string>
+                          <string>Recipient or Beneficiary</string>
                         </tuple>
                         <tuple>
                           <string>destination_section_title</string>
