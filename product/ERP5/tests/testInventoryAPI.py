@@ -44,6 +44,9 @@ from Products.ERP5Type.tests.ERP5TypeTestCase import ERP5TypeTestCase
 from Products.ERP5Type.tests.utils import reindex
 from Products.ERP5Type.tests.backportUnittest import expectedFailure
 from Products.ERP5.Tool.SimulationTool import MYSQL_MIN_DATETIME_RESOLUTION
+from Products.ERP5Type.tests.utils import createZODBPythonScript
+from Products.DCWorkflow.DCWorkflow import ValidationFailed
+from Products.ERP5Type.Base import _aq_reset
 
 class InventoryAPITestCase(ERP5TypeTestCase):
   """Base class for Inventory API Tests {{{
@@ -2836,21 +2839,7 @@ class TestInventoryDocument(InventoryAPITestCase):
     movement_uid_list.append(movement.getUid())
     self.tic()
     manage_test = self.getPortal().erp5_sql_transactionless_connection.manage_test
-    def executeSQL(query):
-      manage_test("BEGIN\x00%s\x00COMMIT" % (query, ))
 
-    # Make stock table inconsistent with inventory_stock to make sure
-    # inventory_stock is actually tested.
-    executeSQL("UPDATE stock SET quantity=quantity*2 WHERE uid IN (%s)" %
-               (', '.join([str(x) for x in movement_uid_list]), ))
-    self.BASE_QUANTITY *= 2
-    # Make inventory_stock table inconsistent with stock to make sure
-    # inventory_stock is actually not used when checking that partial
-    # inventory is not taken into account.
-    executeSQL("UPDATE inventory_stock SET quantity=quantity*2 WHERE "\
-               "uid IN (%s)" % (', '.join([str(x.getUid()) for x in \
-                                           partial_inventory.objectValues()]),
-                               ))
 
   def afterSetUp(self):
     InventoryAPITestCase.afterSetUp(self)
@@ -2925,13 +2914,9 @@ class TestInventoryDocument(InventoryAPITestCase):
 
   def assertInventoryEquals(self, value, inventory_kw):
     """
-      Check that optimised getInventory call is equal to given value
-      and that unoptimised call is *not* equal to thi value.
+      Check that getInventory call is equal to given value
     """
     self.assertEquals(value, self.getInventory(**inventory_kw))
-    self.assertNotEquals(value,
-                         self.getInventory(optimisation__=False,
-                                           **inventory_kw))
 
   def setUpDefaultInventoryCalculationList(self):
     createZODBPythonScript(self.portal.portal_skins.custom,
@@ -3917,6 +3902,7 @@ def test_suite():
   suite.addTest(unittest.makeSuite(TestNextNegativeInventoryDate))
   suite.addTest(unittest.makeSuite(TestTrackingList))
   suite.addTest(unittest.makeSuite(TestInventoryCacheTable))
+  suite.addTest(unittest.makeSuite(TestInventoryDocument))
   suite.addTest(unittest.makeSuite(TestUnitConversion))
   suite.addTest(unittest.makeSuite(TestUnitConversionDefinition))
   suite.addTest(unittest.makeSuite(TestUnitConversionBackwardCompatibility))
