@@ -193,7 +193,8 @@ class TestInventory(TestOrderMixin, ERP5TypeTestCase):
     inventory = inventory_module.newContent(portal_type = self.inventory_portal_type)
     inventory.edit(destination_value = sequence.get('node'),
                    destination_section_value = sequence.get('section'),
-                   start_date = DateTime() + 1
+                   start_date = DateTime() + 1,
+                   full_inventory=True,
                   )
     inventory_list.append(inventory)
     sequence.edit(inventory_list=inventory_list)
@@ -212,6 +213,20 @@ class TestInventory(TestOrderMixin, ERP5TypeTestCase):
     inventory.deliver()
     inventory_list.append(inventory)
     sequence.edit(inventory_list=inventory_list)
+
+  def stepCreateFullInventory(self, sequence=None, sequence_list=None, **kw):
+    """
+      Create a full Inventory object for Inventory Module testing
+    """
+    inventory = self.createInventory(sequence=sequence)
+    inventory_list = sequence.get('inventory_list',[])
+    inventory.edit(full_inventory=True)
+    inventory_line = inventory.newContent(
+      portal_type = self.inventory_line_portal_type)
+    inventory.deliver()
+    inventory_list.append(inventory)
+    sequence.edit(inventory_list=inventory_list)
+
 
   def stepCreateSingleVariatedInventory(self, sequence=None, sequence_list=None, **kw):
     """
@@ -1832,6 +1847,24 @@ class TestInventory(TestOrderMixin, ERP5TypeTestCase):
     step += 1
     sequence.edit(step=step)
 
+  def stepTestFullInventory(self, sequence=None, sequence_list=None, **kw):
+    """
+      Test Full inventory behavior
+    """
+    inventory_list = sequence.get('inventory_list')
+    simulation = self.getPortal().portal_simulation
+
+    inventory = simulation.getCurrentInventory(
+                    section=sequence.get('section').getRelativeUrl(),
+                    node=sequence.get('node').getRelativeUrl(),
+                    )
+    self.assertEquals(inventory, 0.,
+                    'section=%s, node=%s' % (
+                    sequence.get('section').getRelativeUrl(),
+                    sequence.get('node').getRelativeUrl()))
+
+
+
   def stepModifyFirstInventory(self, sequence=None, sequence_list=None, **kw):
     """
       Modify the first entered Inventory, to test the quantity change
@@ -2016,6 +2049,31 @@ class TestInventory(TestOrderMixin, ERP5TypeTestCase):
         node_uid=organisation.getUid(),
         resource_uid=product.getUid()),
       0)
+
+  def test_06_FullInventory(self, quiet=0, run=run_all_test):
+    """
+      Test the full inventory behavior
+    """
+    if not run: return
+    sequence_list = SequenceList()
+
+    sequence_string = 'stepCreateOrganisationsForModule \
+                       stepCreateVariatedResource \
+                       stepCreateItemList \
+                       stepCreatePackingListForModule \
+                       stepTic \
+                       stepCreatePackingListLine \
+                       stepTic \
+                       stepDeliverPackingList \
+                       stepTic \
+                       stepCreateFullInventory \
+                       stepTic \
+                       stepTestFullInventory \
+                       '
+    sequence_list.addSequenceString(sequence_string)
+
+    sequence_list.play(self)
+
 
 def test_suite():
   suite = unittest.TestSuite()
