@@ -187,10 +187,10 @@ class Inventory(Delivery):
           current_inventory_dict[current_inventory_key] = line['total_quantity']
 
       # Browse all movements on inventory and create diff line when necessary
-      not_used_inventory_dict = {}
+      not_used_inventory_dict = current_inventory_dict
       inventory_id = self.getId()
-      list_method = inventory_calculation_dict['list_method']      
-      method = getattr(self, list_method)      
+      list_method = inventory_calculation_dict['list_method']
+      method = getattr(self, list_method)
       for movement in method():
         if movement.getResourceValue() is not None and \
             movement.getInventoriatedQuantity() not in (None, ''):
