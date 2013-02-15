@@ -359,7 +359,7 @@
                         </tuple>
                         <tuple>
                           <string>source_title</string>
-                          <string>Sender Or Caller</string>
+                          <string>Sender or Caller</string>
                         </tuple>
                         <tuple>
                           <string>destination_title</string>
@@ -367,7 +367,7 @@
                         </tuple>
                         <tuple>
                           <string>follow_up_title</string>
-                          <string>Follow Up Ticket</string>
+                          <string>Follow up Ticket</string>
                         </tuple>
                         <tuple>
                           <string>translated_simulation_state_title</string>
@@ -426,7 +426,7 @@
                         </tuple>
                         <tuple>
                           <string>source_title</string>
-                          <string>Sender Or Caller</string>
+                          <string>Sender or Caller</string>
                         </tuple>
                         <tuple>
                           <string>destination_title</string>
@@ -434,7 +434,7 @@
                         </tuple>
                         <tuple>
                           <string>follow_up_title</string>
-                          <string>Follow Up Ticket</string>
+                          <string>Follow up Ticket</string>
                         </tuple>
                         <tuple>
                           <string>translated_simulation_state_title</string>
