@@ -341,7 +341,7 @@
                         </tuple>
                         <tuple>
                           <string>resource_title</string>
-                          <string>Product Or Service</string>
+                          <string>Product or Service</string>
                         </tuple>
                         <tuple>
                           <string>quantity</string>
@@ -392,7 +392,7 @@
                         </tuple>
                         <tuple>
                           <string>resource_title</string>
-                          <string>Product Or Service</string>
+                          <string>Product or Service</string>
                         </tuple>
                         <tuple>
                           <string>quantity</string>
