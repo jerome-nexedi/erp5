@@ -109,7 +109,7 @@ CLOSED_CLASS_WORD_LIST = (\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', \'w
                 \'no\', \'yes\', \'mm\', \'ah\', \'mhm\', \'aye\', \'ooh\', \'hello\', \'dear\', \'eh\', \'ha\', \'aha\', \'hey\', \'bye\', \'yep\', \n
                 \'goodbye\', \'should\', \'be\', \'has\', "hasn\'t", \'do\', "don\'t", "doesn\'t", "haven\'t", "shouldn\'t", "want",\n
                 \'instead\', \'not\', \'use\', \'is\', \'been\', \'on\', \'already\', \'there\', \'could\', \'are\', \'have\', \'too\', \'out\',\n
-                \'included\', \'will\', \'would\', \'only\'\n
+                \'included\', \'will\', \'would\', \'only\', \'it\'\n
               )\n
 \n
 CLOSED_CLASS_WORD_DICT = dict([(word, 1) for word in CLOSED_CLASS_WORD_LIST])\n
@@ -260,8 +260,8 @@ for ptype in portal_types:\n
   message = \'\'\n
   if pt_title not in (None, \'\'):\n
     message += checkTitle(\'/\'.join([\'portal_types\', pt_id]), \'title\', pt_title)\n
-  else:\n
-    message += checkTitle(\'/\'.join([\'portal_types\', pt_id]), \'id\', pt_id)\n
+  #else:\n
+  #  message += checkTitle(\'/\'.join([\'portal_types\', pt_id]), \'id\', pt_id)\n
   if message:\n
     message_list.append(message)\n
 \n
