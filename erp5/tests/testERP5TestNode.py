@@ -31,10 +31,12 @@ class ERP5TestNode(TestCase):
     self.remote_repository0 = os.path.join(self._temp_dir, 'rep0')
     self.remote_repository1 = os.path.join(self._temp_dir, 'rep1')
     self.remote_repository2 = os.path.join(self._temp_dir, 'rep2')
+    self.system_temp_folder = os.path.join(self._temp_dir,'tmp')
     os.mkdir(self.working_directory)
     os.mkdir(self.slapos_directory)
     os.mkdir(self.test_suite_directory)
     os.mkdir(self.environment)
+    os.mkdir(self.system_temp_folder)
     os.makedirs(self.log_directory)
     os.close(os.open(self.log_file,os.O_CREAT))
     os.mkdir(self.remote_repository0)
@@ -60,6 +62,7 @@ class ERP5TestNode(TestCase):
     config["log_file"] = self.log_file
     config["test_suite_master_url"] = None
     config["test_node_title"] = "Foo-Test-Node"
+    config["system_temp_folder"] = self.system_temp_folder
     return TestNode(self.log, config)
 
   def getTestSuiteData(self, add_third_repository=False, reference="foo"):
@@ -451,16 +454,13 @@ branch = foo
     original_runTestSuite = test_node.runTestSuite
     test_node.runTestSuite = doNothing
     SlapOSControler.initializeSlapOSControler = doNothing
-    try:
-      test_node.run()
-    except Exception as e:
-      self.assertEqual(type(e),StopIteration)
-    finally:
-      time.sleep = original_sleep
-      TaskDistributor.startTestSuite = original_startTestSuite
-      TaskDistributionTool.createTestResult = original_createTestResult
-      test_node._prepareSlapOS = original_prepareSlapOS
-      test_node.runTestSuite = original_runTestSuite
+    test_node.run()
+    self.assertEquals(5, counter)
+    time.sleep = original_sleep
+    TaskDistributor.startTestSuite = original_startTestSuite
+    TaskDistributionTool.createTestResult = original_createTestResult
+    test_node._prepareSlapOS = original_prepareSlapOS
+    test_node.runTestSuite = original_runTestSuite
 
   def test_12_spawn(self):
     def _checkCorrectStatus(expected_status,*args):
@@ -509,12 +509,11 @@ branch = foo
     counter = 0
     def patch_startTestSuite(self,test_node_title):
       global counter
-      config_list = []
-      if counter == 0:
-        config_list.append(test_self.getTestSuiteData(reference='aa')[0])
-      if counter == 1:
-        config_list.append(test_self.getTestSuiteData(reference='bb')[0])
-      elif counter == 2:
+      config_list = [test_self.getTestSuiteData(reference='aa')[0],
+                     test_self.getTestSuiteData(reference='bb')[0]]
+      if counter in (1, 2):
+        config_list.reverse()
+      elif counter == 3:
         raise StopIteration
       counter += 1
       return json.dumps(config_list)
@@ -527,9 +526,10 @@ branch = foo
     def checkTestSuite(test_node):
       test_node.node_test_suite_dict
       rand_part_set = set()
+      self.assertEquals(2, len(test_node.node_test_suite_dict))
+      assert(test_node.suite_log is not None)
+      assert(isinstance(test_node.suite_log, types.MethodType))
       for ref, suite in test_node.node_test_suite_dict.items():
-        assert(suite.suite_log is not None)
-        assert(isinstance(suite.suite_log, types.MethodType))
         self.assertTrue('var/log/testnode/%s' % suite.reference in \
                          suite.suite_log_path,
                          "Incorrect suite log path : %r" % suite.suite_log_path)
@@ -539,6 +539,9 @@ branch = foo
         assert(len(rand_part) == 32)
         assert(rand_part not in rand_part_set)
         rand_part_set.add(rand_part)
+        suite_log = open(suite.suite_log_path, 'r')
+        self.assertEquals(1, len([x for x in suite_log.readlines() \
+                              if x.find("Activated logfile")>=0]))
 
     original_sleep = time.sleep
     time.sleep = doNothing
@@ -553,17 +556,14 @@ branch = foo
     original_runTestSuite = test_node.runTestSuite
     test_node.runTestSuite = doNothing
     SlapOSControler.initializeSlapOSControler = doNothing
-    try:
-      test_node.run()
-    except Exception as e:
-      checkTestSuite(test_node)
-      self.assertEqual(type(e),StopIteration)
-    finally:
-      time.sleep = original_sleep
-      TaskDistributor.startTestSuite = original_startTestSuite
-      TaskDistributionTool.createTestResult = original_createTestResult
-      test_node._prepareSlapOS = original_prepareSlapOS
-      test_node.runTestSuite = original_runTestSuite
+    test_node.run()
+    self.assertEquals(counter, 3)
+    checkTestSuite(test_node)
+    time.sleep = original_sleep
+    TaskDistributor.startTestSuite = original_startTestSuite
+    TaskDistributionTool.createTestResult = original_createTestResult
+    test_node._prepareSlapOS = original_prepareSlapOS
+    test_node.runTestSuite = original_runTestSuite
 
   def test_16_cleanupLogDirectory(self):
     # Make sure that we are able to cleanup old log folders
@@ -585,3 +585,25 @@ branch = foo
     test_node.max_log_time = 0
     test_node._cleanupLog()
     check(set(['a_file']))
+
+  def test_17_cleanupLogDirectory(self):
+    # Make sure that we are able to cleanup old temp folders
+    test_node = self.getTestNode()
+    temp_directory = self.system_temp_folder
+    def check(file_list):
+      directory_dir = os.listdir(temp_directory)
+      self.assertTrue(set(file_list).issubset(
+           set(directory_dir)),
+           "%r not contained by %r" % (file_list, directory_dir))
+    check([])
+    os.mkdir(os.path.join(temp_directory, 'buildoutA'))
+    os.mkdir(os.path.join(temp_directory, 'something'))
+    os.mkdir(os.path.join(temp_directory, 'tmpC'))
+    check(set(['buildoutA', 'something', 'tmpC']))
+    # default log file time is 15 days, so nothing is going to be deleted
+    test_node._cleanupTemporaryFiles()
+    check(set(['buildoutA', 'something', 'tmpC']))
+    # then we set keep time to 0, folder will be deleted
+    test_node.max_temp_time = 0
+    test_node._cleanupLog()
+    check(set(['something']))
