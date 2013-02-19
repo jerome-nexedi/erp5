@@ -10,9 +10,9 @@
             <key> <string>delegated_list</string> </key>
             <value>
               <list>
-                <string>title</string>
-                <string>size</string>
                 <string>items</string>
+                <string>size</string>
+                <string>title</string>
               </list>
             </value>
         </item>
@@ -88,6 +88,12 @@
                     <value> <string>Base_viewFieldLibrary</string> </value>
                 </item>
                 <item>
+                    <key> <string>items</string> </key>
+                    <value>
+                      <list/>
+                    </value>
+                </item>
+                <item>
                     <key> <string>size</string> </key>
                     <value> <int>7</int> </value>
                 </item>
@@ -97,7 +103,7 @@
                 </item>
                 <item>
                     <key> <string>title</string> </key>
-                    <value> <string>Days Of Week</string> </value>
+                    <value> <string>Days of Week</string> </value>
                 </item>
               </dictionary>
             </value>
