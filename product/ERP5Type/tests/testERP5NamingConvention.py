@@ -77,42 +77,6 @@ class TestNamingConvention(ERP5TypeTestCase):
     def getTitle(self):
         return "Naming Convention"
 
-    def checkClosedClassWord(self, path, id, title, fdata):
-         error_message = ''
-         word_list = title.split(' ')
-         for word in word_list:
-            word = word.strip('()')
-            if word.isdigit():
-              continue
-            if word != word_list[0] and word.lower() in fdata and word.istitle():
-              error_message += '%s: %s : %r is a closed class word \n' % (path, id,  word)
-         return error_message
-      
-    def testClosedClassWords(self):
-        message_list = []
-        test_path = os.path.dirname(__file__)
-        source_path = os.path.join(test_path, 'input', 'closed_class_words.txt')
-        assert os.path.exists(source_path)
-        f = open(source_path, "r")
-        fdata = f.read().split(' ')
-        for folder in self.portal.portal_skins.objectValues(spec=('Folder',)):
-          if not folder.id.startswith('erp5_'):
-            continue
-          for form in folder.objectValues(spec=('ERP5 Form',)):
-            message = self.checkClosedClassWord('/'.join([folder.id, form.id]), "Title of the form itself", form.title, fdata)
-            if message:
-              message_list.append(message)
-            for group in form.get_groups():
-              if group == 'hidden':
-                continue
-            for field in form.get_fields_in_group(group):
-              if field.get_value('hidden') or field.id == 'matrixbox':
-                continue
-              message = self.checkClosedClassWord('/'.join([folder.id, form.id]), field.id, field.title(), fdata)
-              if message:
-                message_list.append(message)
-        self.assertEquals(0, len(message_list))
-
     def testNamingConvention(self):
         result = 'installed templates: %s\n' % repr(self.getBusinessTemplateList())
 	result += self.getPortal().portal_skins.erp5_core.ERP5Site_checkNamingConventions(html_output=None)
