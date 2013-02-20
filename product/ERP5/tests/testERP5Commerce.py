@@ -104,7 +104,7 @@ class TestCommerce(ERP5TypeTestCase):
             'erp5_web',
             'erp5_pdm',
             'erp5_simulation',
-            'erp5_trade',
+            'erp5_stock_cache', 'erp5_trade',
             'erp5_commerce',
             'erp5_configurator_standard_trade_template',
             'erp5_simulation_test')

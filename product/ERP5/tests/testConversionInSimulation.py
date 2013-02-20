@@ -164,7 +164,7 @@ class TestConversionInSimulation(AccountingTestCase):
             'erp5_core_proxy_field_legacy',
             'erp5_pdm',
             'erp5_simulation',
-            'erp5_trade',
+            'erp5_stock_cache', 'erp5_trade',
             'erp5_accounting',
             'erp5_accounting_ui_test',
             'erp5_invoicing',

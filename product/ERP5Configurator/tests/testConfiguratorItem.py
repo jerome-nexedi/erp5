@@ -49,7 +49,7 @@ class TestConfiguratorItem(TestLiveConfiguratorWorkflowMixin):
             'erp5_configurator',
             'erp5_simulation',
             'erp5_pdm',
-            'erp5_trade',
+            'erp5_stock_cache', 'erp5_trade',
             'erp5_accounting',
             'erp5_configurator_standard_trade_template')
 

@@ -40,7 +40,7 @@ from Products.ERP5Type.tests.backportUnittest import expectedFailure
 target_business_templates = (
   'erp5_base',
   'erp5_simulation',
-  'erp5_trade',
+  'erp5_stock_cache', 'erp5_trade',
 
   'erp5_pdf_editor',
   'erp5_pdm',

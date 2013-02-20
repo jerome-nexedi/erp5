@@ -39,7 +39,7 @@ class MovementGroupTestCase(ERP5TypeTestCase):
     return os.environ.get('erp5_tests_portal_id') or 'movement_group_test'
 
   def getBusinessTemplateList(self):
-    return ('erp5_base', 'erp5_pdm', 'erp5_simulation', 'erp5_trade')
+    return ('erp5_base', 'erp5_pdm', 'erp5_simulation', 'erp5_stock_cache', 'erp5_trade')
 
   def afterSetUp(self):
     self.builder = self.portal.portal_deliveries.newContent(

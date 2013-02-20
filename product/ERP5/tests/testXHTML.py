@@ -69,7 +69,7 @@ class TestXHTML(ERP5TypeTestCase):
       'erp5_core_proxy_field_legacy',
       'erp5_base',
       'erp5_simulation',
-      'erp5_trade',
+      'erp5_stock_cache', 'erp5_trade',
 
       'erp5_pdf_editor',
       'erp5_pdm',
@@ -197,7 +197,7 @@ class TestXHTML(ERP5TypeTestCase):
   def test_configurationOfFieldLibrary(self):
     error_list = []
     for business_template in self.portal.portal_templates.searchFolder(
-          title=['erp5_trade']):
+          title=['erp5_stock_cache', 'erp5_trade']):
       # XXX Impossible to filter by installation state, as it is not catalogued
       business_template = business_template.getObject()
       for modifiable_field in business_template.BusinessTemplate_getModifiableFieldList():

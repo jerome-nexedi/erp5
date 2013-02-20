@@ -73,7 +73,7 @@ class TestSpellChecking(ERP5TypeTestCase):
             'erp5_simulation',
             'erp5_accounting',
             'erp5_pdm',
-            'erp5_trade',
+            'erp5_stock_cache', 'erp5_trade',
             'erp5_workflow',
             'erp5_jquery',
             'erp5_jquery_ui',

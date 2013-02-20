@@ -44,7 +44,7 @@ class TestOpenOrder(ERP5TypeTestCase):
     return ('erp5_base',
             'erp5_pdm',
             'erp5_simulation',
-            'erp5_trade',
+            'erp5_stock_cache', 'erp5_trade',
             'erp5_open_trade',
             'erp5_open_trade_periodicity_line',
             'erp5_configurator_standard_trade_template',

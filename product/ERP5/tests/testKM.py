@@ -55,7 +55,7 @@ class TestKMMixIn(TestDocumentMixin):
                             'erp5_ingestion_mysql_innodb_catalog', 'erp5_ingestion',
                             'erp5_web', 'erp5_dms',           
                             'erp5_pdm', 'erp5_simulation',
-                            'erp5_trade', 'erp5_project', 'erp5_crm',
+                            'erp5_stock_cache', 'erp5_trade', 'erp5_project', 'erp5_crm',
                             'erp5_credential', 'erp5_km']
 
   def getBusinessTemplateList(self):

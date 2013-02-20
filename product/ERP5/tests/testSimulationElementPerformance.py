@@ -121,7 +121,7 @@ class TestSimulationPerformance(ERP5TypeTestCase, LogInterceptor):
         Return the list of business templates.
       """
       return ('erp5_core_proxy_field_legacy', 'erp5_base',
-              'erp5_pdm', 'erp5_simulation', 'erp5_trade',
+              'erp5_pdm', 'erp5_simulation', 'erp5_stock_cache', 'erp5_trade',
               'erp5_accounting', 'erp5_invoicing', 'erp5_simplified_invoicing',
               'erp5_simulation_performance_test')
 

@@ -64,7 +64,7 @@ class TestOrderMixin(SubcontentReindexingWrapper):
     """
     """
     return ('erp5_core_proxy_field_legacy', 'erp5_base','erp5_pdm',
-            'erp5_simulation', 'erp5_trade', 'erp5_apparel', 'erp5_project',
+            'erp5_simulation', 'erp5_stock_cache', 'erp5_trade', 'erp5_apparel', 'erp5_project',
             'erp5_configurator_standard_solver',
             'erp5_configurator_standard_trade_template',
             'erp5_simulation_test', 'erp5_administration')
