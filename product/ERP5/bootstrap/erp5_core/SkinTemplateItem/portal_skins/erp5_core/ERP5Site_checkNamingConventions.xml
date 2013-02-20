@@ -75,44 +75,41 @@ LOWERCASE_WORD_LIST = (\'g\', \'cm\', \'kg\', \'%\', \'/\', \'...\', \'m\', \'-\
 LOWERCASE_WORD_DICT = dict([(word, 1) for word in LOWERCASE_WORD_LIST])\n
 \n
 # List of words that should not be modified\n
-SPECIALCASE_WORD_LIST = (\'OpenOffice\', \'LibreOffice\', \'ChangeLog\')\n
-SPECIALCASE_WORD_DICT = dict([(word, 1) for word in SPECIALCASE_WORD_LIST])\n
+SPECIALCASE_WORD_SET = set((\'OpenOffice\', \'LibreOffice\', \'ChangeLog\'))\n
 \n
-CLOSED_CLASS_WORD_LIST = (\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', \'we\', \'who\', \'them\', \'him\', \n
+CLOSED_CLASS_WORD_SET = set((\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', \'we\', \'who\', \'them\', \'him\', \n
                 \'me\', \'her\', \'one\', \'us\',\'something\', \'nothing\', \'himself\', \'anything\', \'itself\', \'themselves\', \n
-                \'someone\', \'everything\',\'herself\', \'anyone\', \'everyone\', \'whom\', \'myself\', \'each other\', \'yourself\',\n
+                \'someone\', \'everything\',\'herself\', \'anyone\', \'everyone\', \'whom\', \'myself\', \'other\', \'yourself\',\n
                 \'none\', \'no one\', \'somebody\', \'nobody\', \'everybody\', \'anybody\', \'his\', \'plenty\', \'mine\', \'lots\',\n
-                \'ourselves\', \'yours\', \'one another\', \'hers\', \'no-one\', \'ours\', "\'em", \'ye\', \'whoever\', \'ya\', \'theirs\',\n
-                \'the\', \'a\', \'his\', \'an\', \'their\', \'her\', \'its\', \'my\', \'your\', \'no\', \'our\', \'every\', \'me\', \'this\', \'that\',\n
+                \'ourselves\', \'yours\', \'hers\', \'ours\', \'whoever\', \'theirs\',\'the\', \'a\', \'his\', \'an\', \n
+                \'their\', \'her\', \'its\', \'my\', \'your\', \'no\', \'our\', \'every\', \'me\', \'this\', \'that\',\n
                 \'which\', \'what\', \'all\', \'some\', \'these\', \'any\', \'many\', \'those\', \'such\', \'more\', \'own\', \'same\', \n
                 \'another\', \'much\', \'each\', \'few\', \'most\', \'both\', \'several\', \'half\', \'whose\', \'little\', \'former\', \n
                 \'whatever\', \'less\', \'enough\', \'latter\', \'either\', \'fewer\', \'neither\', \'of\', \'in\', \'to\', \'for\',\n
                 \'with\', \'on\', \'by\', \'at\', \'from\', \'as\', \'into\', \'about\', \'like\', \'after\', \'between\', \'through\',\n
-                \'over\', \'against\', \'under\', \'out of\', \'without\', \'within\', \'during\', \'before\', \'such as\', \'towards\',\n
-                \'around\', \'upon\', \'including\', \'among\', \'across\', \'off\', \'behind\', \'since\', \'because of\', \'as well as\',\n
-                \'rather than\', \'until\', \'according to\', \'up to\', \'despite\', \'near\', \'above\', \'per\', \'along\',\n
-                \'away from\', \'throughout\', \'outside\', \'round\', \'beyond\', \'worth\', \'in terms of\', \'down\', \'on to\',\n
-                \'up\', \'due to\', \'inside\', \'as to\', \'instead of\', \'plus\', \'past\', \'in front of\', \'apart from\',\n
-                \'onto\', \'beside\', \'below\', \'v.\' \'subject to\', \'along with\', \'beneath\', \'in relation to\', \'amongst\',\n
-                \'via\', \'other than\', \'unlike\', \'in favour of\', \'in addition to\', \'v\', \'prior to\', \'concerning\',\n
-                \'next to\', \'except\', \'alongside\', \'in respect of\', \'in spite of\', \'till\', \'on behalf of\', \'aged\',\n
+                \'over\', \'against\', \'under\', \'without\', \'within\', \'during\', \'before\', \'towards\',\n
+                \'around\', \'upon\', \'including\', \'among\', \'across\', \'off\', \'behind\', \'since\', \'well\',\n
+                \'until\', \'according\', \'despite\', \'near\', \'above\', \'per\', \'along\', \'away\', \'throughout\',\n
+                \'outside\', \'round\', \'beyond\', \'worth\', \'in terms of\', \'down\', \'on to\',\n
+                \'up\', \'due to\', \'inside\', \'plus\', \'past\', \'in front of\', \'apart\', \'onto\', \'beside\', \'below\',\n
+                \'subject to\', \'along with\', \'beneath\', \'in relation to\', \'amongst\',\n
+                \'via\', \'unlike\', \'in favour of\', \'in addition to\', \'prior to\', \'concerning\', \'next to\', \'except\',\n
+                \'alongside\', \'in respect of\', \'in spite of\', \'till\', \'on behalf of\', \'aged\',\n
                 \'ahead of\', \'on top of\', \'as for\', \'depending on\', \'but\', \'regarding\', \'in accordance with\',\n
-                \'except for\', \'in response to\', \'in the_light of\', \'as opposed to\', \'in charge of\', \'with regard to\',\n
-                \'&times;\', \'by_means_of\', \'in connection with\', \'on the part of\', \'in view of\', \'by way of\',\n
-                \'contrary to\', \'with respect to\', \'let alone\', \'in touch with\', \'minus\', \'toward\', \'in conjunction with\',\n
+                \'except for\', \'in response to\', \'in the light of\', \'as opposed to\', \'in charge of\', \'with regard to\',\n
+                \'by means of\', \'in connection with\', \'on the part of\', \'in view of\', \'by way of\', \'contrary to\', \n
+                \'with respect to\', \'let alone\', \'in touch with\', \'minus\', \'toward\', \'in conjunction with\',\n
                 \'in line with\', \'opposite\', \'following\', \'amid\', \'in support of\', \'in search of\', \'underneath\', \'relative to\',\n
                 \'and\', \'that\', \'but\', \'or\', \'as\', \'if\', \'when\', \'than\', \'because\', \'while\', \'where\', \'although\', \'whether\',\n
-                \'before\', \'since\', \'so\', \'though\', \'until\', \'after\', \'so that\', \'cos\', \'as if\', \'for\', \'139&amp;\', \'nor\',\n
-                \'unless\', \'once\', \'even if\', \'whereas\', \'even though\', \'whilst\', \'as though\', \'rather than\', \'as soon as\',\n
+                \'before\', \'since\', \'so\', \'though\', \'until\', \'after\', \'so that\',\'as if\', \'for\', \'nor\',\n
+                \'unless\', \'once\', \'even if\', \'whereas\', \'even though\', \'whilst\', \'as though\', \'rather\', \'soon\',\n
                 \'except\', \'now that\', \'provided\', \'as long as\', \'whether or not\', \'like\', \'till\', \'even when\', \'in case\',\n
-                \'and/or\', \'in that\', \'albeit\', \'except that\', \'so long as\', \'given that\', \'provided that\', \'yeah\', \'oh\', \n
-                \'no\', \'yes\', \'mm\', \'ah\', \'mhm\', \'aye\', \'ooh\', \'hello\', \'dear\', \'eh\', \'ha\', \'aha\', \'hey\', \'bye\', \'yep\', \n
-                \'goodbye\', \'should\', \'be\', \'has\', "hasn\'t", \'do\', "don\'t", "doesn\'t", "haven\'t", "shouldn\'t", "want",\n
-                \'instead\', \'not\', \'use\', \'is\', \'been\', \'on\', \'already\', \'there\', \'could\', \'are\', \'have\', \'too\', \'out\',\n
-                \'included\', \'will\', \'would\', \'only\', \'it\'\n
-              )\n
+                \'in that\', \'except that\', \'so long as\', \'given that\', \'provided that\', \'yes\', \'goodbye\', \'should\', \'be\',\n
+                 \'has\', "hasn\'t", \'do\', "don\'t", "doesn\'t", "haven\'t", "shouldn\'t", "want",\n
+                \'instead\', \'not\', \'is\', \'been\', \'on\', \'already\', \'there\', \'could\', \'are\', \'have\', \'too\', \'out\',\n
+                \'would\', \'only\'\n
+              ))\n
 \n
-CLOSED_CLASS_WORD_DICT = dict([(word, 1) for word in CLOSED_CLASS_WORD_LIST])\n
 \n
 # List of allowed characters, usefull to detect non-english strings\n
 ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789%/. ()-_?&\'#"\n
@@ -192,11 +189,11 @@ def checkTitle(path, id, title, field=None):\n
       if not word.split("-")[0].isupper():\n
         error_message += \'%s : %s : %r is not upper case even though it is an abbriviation\\n\' % (path, id, word)\n
     else:\n
-      if word.lower() in CLOSED_CLASS_WORD_DICT and word != word_list[0] :\n
+      if word.lower() in CLOSED_CLASS_WORD_SET and word != word_list[0] :\n
         if (word.capitalize()== word or titlecase(word)== word):\n
           error_message += \'%s : %s : %r is a closed-class word and should not be titlecased\\n\' % (path, id, word)\n
       elif (word.capitalize()!= word and titlecase(word)!= word) and \\\n
-         word not in LOWERCASE_WORD_DICT and word not in SPECIALCASE_WORD_DICT and word not in CLOSED_CLASS_WORD_DICT :\n
+         word not in LOWERCASE_WORD_DICT and word not in SPECIALCASE_WORD_SET and word not in CLOSED_CLASS_WORD_SET :\n
           error_message += \'%s : %s : %r is not titlecased\\n\' % (path, id, word)\n
   if len(word_list) > 1 and word_list[-1].upper() == \'LIST\' and word_list[-2].upper() != \'PACKING\':\n
     error_message += \'%s : %s : %r is a jargon\\n\' % (path, id, title)\n
