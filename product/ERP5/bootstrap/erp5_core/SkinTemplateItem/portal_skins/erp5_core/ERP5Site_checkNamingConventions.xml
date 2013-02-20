@@ -81,7 +81,7 @@ CLOSED_CLASS_WORD_SET = set((\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', 
                 \'me\', \'her\', \'one\', \'us\',\'something\', \'nothing\', \'himself\', \'anything\', \'itself\', \'themselves\', \n
                 \'someone\', \'everything\',\'herself\', \'anyone\', \'everyone\', \'whom\', \'myself\', \'other\', \'yourself\',\n
                 \'none\', \'no one\', \'somebody\', \'nobody\', \'everybody\', \'anybody\', \'his\', \'plenty\', \'mine\', \'lots\',\n
-                \'ourselves\', \'yours\', \'hers\', \'ours\', \'whoever\', \'theirs\',\'the\', \'a\', \'his\', \'an\', \n
+                \'ourselves\', \'yours\', \'hers\', \'ours\', \'whoever\', \'theirs\', \'the\', \'a\', \'his\', \'an\', \n
                 \'their\', \'her\', \'its\', \'my\', \'your\', \'no\', \'our\', \'every\', \'me\', \'this\', \'that\',\n
                 \'which\', \'what\', \'all\', \'some\', \'these\', \'any\', \'many\', \'those\', \'such\', \'more\', \'own\', \'same\', \n
                 \'another\', \'much\', \'each\', \'few\', \'most\', \'both\', \'several\', \'half\', \'whose\', \'little\', \'former\', \n
@@ -89,23 +89,23 @@ CLOSED_CLASS_WORD_SET = set((\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', 
                 \'with\', \'on\', \'by\', \'at\', \'from\', \'as\', \'into\', \'about\', \'like\', \'after\', \'between\', \'through\',\n
                 \'over\', \'against\', \'under\', \'without\', \'within\', \'during\', \'before\', \'towards\',\n
                 \'around\', \'upon\', \'including\', \'among\', \'across\', \'off\', \'behind\', \'since\', \'well\',\n
-                \'until\', \'according\', \'despite\', \'near\', \'above\', \'per\', \'along\', \'away\', \'throughout\',\n
-                \'outside\', \'round\', \'beyond\', \'worth\', \'in terms of\', \'down\', \'on to\',\n
-                \'up\', \'due to\', \'inside\', \'plus\', \'past\', \'in front of\', \'apart\', \'onto\', \'beside\', \'below\',\n
+                \'until\', \'according to\', \'despite\', \'near\', \'above\', \'per\', \'along\', \'away\', \'throughout\',\n
+                \'outside\', \'round\', \'beyond\', \'worth\', \'in terms of\', \'down\', \'up\', \'due to\', \'inside\',\n
+                \'plus\', \'past\', \'in front of\', \'apart\', \'onto\', \'beside\', \'below\', \'each other\', \'other than\'\n
                 \'subject to\', \'along with\', \'beneath\', \'in relation to\', \'amongst\',\n
                 \'via\', \'unlike\', \'in favour of\', \'in addition to\', \'prior to\', \'concerning\', \'next to\', \'except\',\n
                 \'alongside\', \'in respect of\', \'in spite of\', \'till\', \'on behalf of\', \'aged\',\n
-                \'ahead of\', \'on top of\', \'as for\', \'depending on\', \'but\', \'regarding\', \'in accordance with\',\n
+                \'ahead of\', \'on top of\', \'depending on\', \'but\', \'regarding\', \'in accordance with\',\n
                 \'except for\', \'in response to\', \'in the light of\', \'as opposed to\', \'in charge of\', \'with regard to\',\n
                 \'by means of\', \'in connection with\', \'on the part of\', \'in view of\', \'by way of\', \'contrary to\', \n
                 \'with respect to\', \'let alone\', \'in touch with\', \'minus\', \'toward\', \'in conjunction with\',\n
                 \'in line with\', \'opposite\', \'following\', \'amid\', \'in support of\', \'in search of\', \'underneath\', \'relative to\',\n
                 \'and\', \'that\', \'but\', \'or\', \'as\', \'if\', \'when\', \'than\', \'because\', \'while\', \'where\', \'although\', \'whether\',\n
-                \'before\', \'since\', \'so\', \'though\', \'until\', \'after\', \'so that\',\'as if\', \'for\', \'nor\',\n
-                \'unless\', \'once\', \'even if\', \'whereas\', \'even though\', \'whilst\', \'as though\', \'rather\', \'soon\',\n
-                \'except\', \'now that\', \'provided\', \'as long as\', \'whether or not\', \'like\', \'till\', \'even when\', \'in case\',\n
-                \'in that\', \'except that\', \'so long as\', \'given that\', \'provided that\', \'yes\', \'goodbye\', \'should\', \'be\',\n
-                 \'has\', "hasn\'t", \'do\', "don\'t", "doesn\'t", "haven\'t", "shouldn\'t", "want",\n
+                \'before\', \'since\', \'so\', \'though\', \'until\', \'after\', \'for\', \'nor\',\n
+                \'unless\', \'once\', \'even if\', \'whereas\', \'even though\', \'whilst\', \'rather\', \'soon\',\n
+                \'except\', \'now that\', \'provided\', \'as long as\', \'like\', \'till\', \'even when\', \'in case\',\n
+                \'so long as\', \'given that\', \'provided that\', \'yes\', \'goodbye\', \'should\', \'be\',\n
+                \'has\', "hasn\'t", \'do\', "don\'t", "doesn\'t", "haven\'t", "shouldn\'t", "want",\n
                 \'instead\', \'not\', \'is\', \'been\', \'on\', \'already\', \'there\', \'could\', \'are\', \'have\', \'too\', \'out\',\n
                 \'would\', \'only\'\n
               ))\n
