@@ -31,6 +31,7 @@ import subprocess
 import time
 import xml_marshaller
 import shutil
+import sys
 import glob
 
 MAX_PARTIONS = 10
@@ -95,15 +96,20 @@ class SlapOSControler(object):
     # XXX: dirty, giving some time for proxy to being able to accept
     # connections
     time.sleep(10)
-    slap = slapos.slap.slap()
-    self.slap = slap
-    self.slap.initializeConnection(config['master_url'])
-    # register software profile
-    for path in self.software_path_list:
-      slap.registerSupply().supply(
-          path,
-          computer_guid=config['computer_id'])
-    computer = slap.registerComputer(config['computer_id'])
+    try:
+      slap = slapos.slap.slap()
+      self.slap = slap
+      self.slap.initializeConnection(config['master_url'])
+      # register software profile
+      for path in self.software_path_list:
+        slap.registerSupply().supply(
+            path,
+            computer_guid=config['computer_id'])
+      computer = slap.registerComputer(config['computer_id'])
+    except:
+        self.log("SlapOSControler.initializeSlapOSControler, \
+                 exception in registerSupply", exc_info=sys.exc_info())
+        raise ValueError("Unable to initializeSlapOSControler")
     # Reset all previously generated software if needed
     if reset_software:
       self._resetSoftware()
@@ -170,9 +176,15 @@ class SlapOSControler(object):
     config['instance_dict']['report-project'] = config.get("report-project", "")
     config['instance_dict']['suite-url'] = config.get("suite-url", "")
     for path in self.software_path_list:
-      self.slap.registerOpenOrder().request(path,
-        partition_reference='testing partition %s' % self.software_path_list.index(path),
-        partition_parameter_kw=config['instance_dict'])
+      try:
+        self.slap.registerOpenOrder().request(path,
+          partition_reference='testing partition %s' % \
+            self.software_path_list.index(path),
+          partition_parameter_kw=config['instance_dict'])
+      except:
+        self.log("SlapOSControler.runComputerPartition, \
+                 exception in registerOpenOrder", exc_info=sys.exc_info())
+        raise ValueError("Unable to registerOpenOrder")
 
     # try to run for all partitions as one partition may in theory request another one 
     # this not always is required but curently no way to know how "tree" of partitions

@@ -45,7 +45,7 @@ from erp5.util import taskdistribution
 DEFAULT_SLEEP_TIMEOUT = 120 # time in seconds to sleep
 MAX_LOG_TIME = 15 # time in days we should keep logs that we can see through
                   # httd
-MAX_TEMP_TIME = 5 # time in days we should keep temp files
+MAX_TEMP_TIME = 0.01 # time in days we should keep temp files
 supervisord_pid_file = None
 
 PROFILE_PATH_KEY = 'profile_path'
@@ -436,6 +436,7 @@ branch = %(branch)s
     try:
       while True:
         try:
+          node_test_suite = None
           self.log = self.process_manager.log = self.testnode_log
           self.cleanUp(None)
           remote_test_result_needs_cleanup = False
@@ -497,7 +498,8 @@ branch = %(branch)s
         except ValueError as e:
           # This could at least happens if runTestSuite is not found
           log("ValueError", exc_info=sys.exc_info())
-          node_test_suite.retry_software_count += 1
+          if node_test_suite is not None:
+            node_test_suite.retry_software_count += 1
         except CancellationError, e:
           log("CancellationError", exc_info=sys.exc_info())
           self.process_manager.under_cancellation = False
