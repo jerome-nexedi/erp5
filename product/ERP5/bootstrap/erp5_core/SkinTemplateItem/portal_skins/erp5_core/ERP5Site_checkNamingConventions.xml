@@ -79,7 +79,7 @@ SPECIALCASE_WORD_SET = set((\'OpenOffice\', \'LibreOffice\', \'ChangeLog\'))\n
 \n
 CLOSED_CLASS_WORD_SET = set((\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', \'we\', \'who\', \'them\', \'him\', \n
                 \'me\', \'her\', \'one\', \'us\',\'something\', \'nothing\', \'himself\', \'anything\', \'itself\', \'themselves\', \n
-                \'someone\', \'everything\',\'herself\', \'anyone\', \'everyone\', \'whom\', \'myself\', \'other\', \'yourself\',\n
+                \'someone\', \'everything\',\'herself\', \'anyone\', \'everyone\', \'whom\', \'myself\', \'yourself\',\n
                 \'none\', \'no one\', \'somebody\', \'nobody\', \'everybody\', \'anybody\', \'his\', \'plenty\', \'mine\', \'lots\',\n
                 \'ourselves\', \'yours\', \'hers\', \'ours\', \'whoever\', \'theirs\', \'the\', \'a\', \'his\', \'an\', \n
                 \'their\', \'her\', \'its\', \'my\', \'your\', \'no\', \'our\', \'every\', \'me\', \'this\', \'that\',\n
@@ -101,7 +101,7 @@ CLOSED_CLASS_WORD_SET = set((\'it\', \'i\', \'you\', \'he\', \'they\', \'she\', 
                 \'with respect to\', \'let alone\', \'in touch with\', \'minus\', \'toward\', \'in conjunction with\',\n
                 \'in line with\', \'opposite\', \'following\', \'amid\', \'in support of\', \'in search of\', \'underneath\', \'relative to\',\n
                 \'and\', \'that\', \'but\', \'or\', \'as\', \'if\', \'when\', \'than\', \'because\', \'while\', \'where\', \'although\', \'whether\',\n
-                \'before\', \'since\', \'so\', \'though\', \'until\', \'after\', \'for\', \'nor\',\n
+                \'before\', \'since\', \'so\', \'though\', \'until\', \'after\', \'for\', \'nor\', \'did\',\n
                 \'unless\', \'once\', \'even if\', \'whereas\', \'even though\', \'whilst\', \'rather\', \'soon\',\n
                 \'except\', \'now that\', \'provided\', \'as long as\', \'like\', \'till\', \'even when\', \'in case\',\n
                 \'so long as\', \'given that\', \'provided that\', \'yes\', \'goodbye\', \'should\', \'be\',\n
