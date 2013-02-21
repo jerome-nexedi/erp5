@@ -63,7 +63,7 @@ class TestBug(ERP5TypeTestCase):
            , 'erp5_forge'
            , 'erp5_base'
            , 'erp5_pdm'
-           , 'erp5_stock_cache', 'erp5_trade'
+           , 'erp5_trade'
            , 'erp5_project'
            )
 

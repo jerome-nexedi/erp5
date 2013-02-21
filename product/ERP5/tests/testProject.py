@@ -48,7 +48,7 @@ class TestProject(ERP5TypeTestCase):
     return ('erp5_base',
             'erp5_pdm',
             'erp5_simulation',
-            'erp5_stock_cache', 'erp5_trade',
+            'erp5_trade',
             'erp5_project',
             'erp5_configurator_standard_trade_template',
             'erp5_simulation_test')

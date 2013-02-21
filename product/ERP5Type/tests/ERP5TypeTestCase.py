@@ -818,7 +818,8 @@ class ERP5TypeCommandLineTestCase(ERP5TypeTestCaseMixin):
       if update_business_templates and erp5_load_data_fs:
         update_only = os.environ.get('update_only', None)
         template_list = (erp5_catalog_storage, 'erp5_property_sheets',
-                         'erp5_core', 'erp5_xhtml_style') + tuple(template_list)
+                         'erp5_core', 'erp5_xhtml_style', 'erp5_stock_cache') \
+                         + tuple(template_list)
         # Update only specified business templates, regular expression
         # can be used.
         if update_only is not None:

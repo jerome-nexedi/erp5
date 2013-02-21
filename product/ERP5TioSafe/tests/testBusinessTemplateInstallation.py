@@ -67,7 +67,7 @@ class TestPackaging(testTioSafeMixin):
     """Test skins are present."""
     for skin_name in ( 'erp5_base',
                        'erp5_pdm',
-                       'erp5_stock_cache', 'erp5_trade',
+                       'erp5_trade',
                        'erp5_syncml',
                        'erp5_integration',
                      ):

@@ -46,7 +46,7 @@ class TestOxatisSynchronization(ERP5TypeTestCase):
       'erp5_base',
       'erp5_pdm',
       'erp5_simulation',
-      'erp5_stock_cache', 'erp5_trade',
+      'erp5_trade',
       'erp5_syncml',
       'erp5_tiosafe_core',
       'erp5_tiosafe_pdm',

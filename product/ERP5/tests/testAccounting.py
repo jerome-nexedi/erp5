@@ -231,7 +231,7 @@ class AccountingTestCase(ERP5TypeTestCase):
     # standalone accounting and only installs erp5_accounting_ui_test to have
     # some default content created.
     return ('erp5_core_proxy_field_legacy',
-            'erp5_base', 'erp5_pdm', 'erp5_simulation', 'erp5_stock_cache', 'erp5_trade',
+            'erp5_base', 'erp5_pdm', 'erp5_simulation', 'erp5_trade',
             'erp5_accounting', 'erp5_project', 'erp5_accounting_ui_test',
             'erp5_ods_style',
             'erp5_configurator_standard_trade_template',
@@ -3270,7 +3270,7 @@ class TestAccountingWithSequences(ERP5TypeTestCase):
   def getBusinessTemplateList(self):
     """Returns list of BT to be installed."""
     return ('erp5_core_proxy_field_legacy', 'erp5_base', 'erp5_pdm',
-            'erp5_simulation', 'erp5_stock_cache', 'erp5_trade', 'erp5_accounting',
+            'erp5_simulation', 'erp5_trade', 'erp5_accounting',
             'erp5_simulation_test')
 
   # XXX

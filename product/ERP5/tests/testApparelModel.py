@@ -39,7 +39,7 @@ class TestApparelModel(ERP5TypeTestCase):
     return (
       'erp5_base',
       'erp5_pdm',
-      'erp5_stock_cache', 'erp5_trade',
+      'erp5_trade',
       'erp5_apparel')
 
   def afterSetUp(self):

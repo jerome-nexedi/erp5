@@ -48,7 +48,7 @@ class TestMaxmaDemoConfiguratorWorkflow(TestLiveConfiguratorWorkflowMixin):
                        'erp5_dms',
                        'erp5_crm',
                        'erp5_pdm',
-                       'erp5_stock_cache', 'erp5_trade',
+                       'erp5_trade',
                        'erp5_knowledge_pad',
                        'erp5_accounting',
                        'erp5_tax_resource',

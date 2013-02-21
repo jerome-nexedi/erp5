@@ -981,7 +981,7 @@ class TestItemScripts(ERP5TypeTestCase):
   """Test scripts from erp5_item.
   """
   def getBusinessTemplateList(self):
-    return ('erp5_base', 'erp5_pdm', 'erp5_simulation', 'erp5_stock_cache', 'erp5_trade',
+    return ('erp5_base', 'erp5_pdm', 'erp5_simulation', 'erp5_trade',
             'erp5_item', 'erp5_configurator_standard_solver',
             'erp5_simulation_test')
 
